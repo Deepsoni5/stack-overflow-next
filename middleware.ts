@@ -7,8 +7,10 @@ export default authMiddleware({
     "/",
     "/api/webhook",
     "/community",
+    "question/:id",
     "/collection",
     "/tags",
+    "/tags/:id",
     "/jobs",
   ],
   ignoredRoutes: [

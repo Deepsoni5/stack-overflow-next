@@ -6,7 +6,7 @@ import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
 import { getQuestion } from "@/lib/actions/question.action";
-import { UserButton } from "@clerk/nextjs";
+
 import Link from "next/link";
 
 export default async function Home() {

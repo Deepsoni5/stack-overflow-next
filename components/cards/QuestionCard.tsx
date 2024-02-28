@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { title } from "process";
+
 import React from "react";
 import RenderTag from "../shared/RenderTag";
 import Metric from "../shared/Metric";
@@ -46,7 +46,6 @@ const QuestionCard = ({
             </h3>
           </Link>
         </div>
-        {/*if signed in add edit,delete actions*/}
       </div>
       <div className="mt-3.5 flex flex-wrap gap-2">
         {tags.map((tag) => (

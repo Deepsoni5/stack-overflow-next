@@ -66,13 +66,14 @@ export async function deleteUser(params: DeleteUserParams) {
     const userQuestionIds = await Question.find({
       author: user._id,
     }).distinct("_id");
-
+    console.log(userQuestionIds);
     await Question.deleteMany({ author: user._id });
 
     // TODO: Delete answers and all the things ...
 
     const deletedUser = await User.findByIdAndDelete(user._id);
     return deleteUser;
+    console.log(deleteUser);
   } catch (error) {
     console.log("error while creating user user.action.ts", error);
   }

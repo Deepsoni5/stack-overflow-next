@@ -4,6 +4,5 @@
     "standard",
     "plugin:tailwindcss/recommended",
     "prettier"
-  ],
-  "rules": { "camelcase": "off", "@typescript-eslint/camelcase": ["off"] }
+  ]
 }

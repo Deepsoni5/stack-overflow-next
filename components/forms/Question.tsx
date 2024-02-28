@@ -53,7 +53,10 @@ const Question = ({ mongoUserId }: Props) => {
         content: values.explaination,
         tags: values.tags,
         author: JSON.parse(mongoUserId),
+        path: pathname,
       });
+
+      console.log(pathname);
 
       // contain all form data
       // navigate to home

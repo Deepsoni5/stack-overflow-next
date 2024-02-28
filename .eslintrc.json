@@ -5,5 +5,5 @@
     "plugin:tailwindcss/recommended",
     "prettier"
   ],
-  "rules": { "camelcase": "off", "@typescript-eslint/camelcase": ["warn"] }
+  "rules": { "camelcase": "off", "@typescript-eslint/camelcase": ["off"] }
 }

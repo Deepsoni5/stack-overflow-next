@@ -72,8 +72,8 @@ export async function deleteUser(params: DeleteUserParams) {
     // TODO: Delete answers and all the things ...
 
     const deletedUser = await User.findByIdAndDelete(user._id);
-    return deleteUser;
     console.log(deleteUser);
+    return deleteUser;
   } catch (error) {
     console.log("error while creating user user.action.ts", error);
   }

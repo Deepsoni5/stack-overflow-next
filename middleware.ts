@@ -3,7 +3,17 @@ import { authMiddleware } from "@clerk/nextjs";
 export default authMiddleware({
   // Routes that can be accessed while signed out
   // anyone can access
-  publicRoutes: ["/"],
+  publicRoutes: [
+    "/",
+    "/api/webhook",
+    "/question/:id",
+    "/tags",
+    "/tags/:id",
+    "/profile/:id",
+    "/community",
+    "/jobs",
+  ],
+  ignoredRoutes: ["/api/webhook", "/api/chatgpt"],
 });
 
 export const config = {

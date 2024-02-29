@@ -13,7 +13,7 @@ export default authMiddleware({
     "/tags/:id",
     "/jobs",
   ],
-  ignoredRoutes: ["/api/clerk", "/api/chatgpt"],
+  ignoredRoutes: ["/api/chatgpt"],
 });
 
 export const config = {

@@ -11,6 +11,7 @@ import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import result from "postcss/lib/result";
+import { stringify } from "querystring";
 
 import React from "react";
 
@@ -44,7 +45,16 @@ const Page = async ({ params, searchParams }: any) => {
             </p>
           </Link>
           <div className="flex justify-end">
-            <Votes />
+            <Votes
+              type="Question"
+              itemId={JSON.stringify(result._id)}
+              userId={JSON.stringify(mongoUser._id)}
+              upvotes={result.upvotes.length}
+              hasupVoted={result.upvotes.includes(mongoUser._id)}
+              downvotes={result.downvotes.length}
+              hasdownVoted={result.downvotes.includes(mongoUser._id)}
+              hasSaved={mongoUser?.saved.includes(result._id)}
+            />
           </div>
         </div>
         <h2 className="h2-semibold text-dark200_light900 mt-3.5 w-full text-left">

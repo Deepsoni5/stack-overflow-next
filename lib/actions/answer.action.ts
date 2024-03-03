@@ -16,7 +16,7 @@ export async function createAnswer(params: CreateAnswerParams) {
       author,
       question,
     });
-
+    // newAnswer.save();
     // add the answer to question's answer array
 
     await Question.findByIdAndUpdate(question, {

@@ -51,3 +51,11 @@ export const formatAndDivideNumber = (number: number): string => {
     return `${number}`;
   }
 };
+
+export function getJoinedDate(date: Date): string {
+  const month = date.toLocaleString("default", { month: "long" });
+  const year = date.getFullYear();
+
+  const joinedDate = `${month} ${year}`;
+  return joinedDate;
+}

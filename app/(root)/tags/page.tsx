@@ -4,7 +4,6 @@ import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { UserFilters } from "@/constants/filters";
 import { getAllTags } from "@/lib/actions/tag.action";
 import Link from "next/link";
-import result from "postcss/lib/result";
 
 const Page = async () => {
   const result = await getAllTags({});

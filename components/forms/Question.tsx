@@ -31,8 +31,9 @@ interface Props {
 
 const Question = ({ mongoUserId, type, questionDetails }: Props) => {
   const { mode } = useTheme();
-  const parsedQuestionDetail = JSON.parse(questionDetails || "");
-  const groupedTags = parsedQuestionDetail.tags.map((tag: any) => tag.name);
+  const parsedQuestionDetail =
+    questionDetails && JSON.parse(questionDetails || "");
+  const groupedTags = parsedQuestionDetail?.tags?.map((tag: any) => tag.name);
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
@@ -41,8 +42,10 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
   const form = useForm<z.infer<typeof QuestionSchema>>({
     resolver: zodResolver(QuestionSchema),
     defaultValues: {
-      title: parsedQuestionDetail.title || "",
-      explaination: parsedQuestionDetail.content || "",
+      title: parsedQuestionDetail ? parsedQuestionDetail.title || "" : "",
+      explaination: parsedQuestionDetail
+        ? parsedQuestionDetail.content || ""
+        : "",
       tags: groupedTags || [],
     },
   });
@@ -158,7 +161,11 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
                   }}
                   onBlur={field.onBlur}
                   onEditorChange={(content) => field.onChange(content)}
-                  initialValue={parsedQuestionDetail.content || ""}
+                  initialValue={
+                    parsedQuestionDetail
+                      ? parsedQuestionDetail.content || ""
+                      : ""
+                  }
                   init={{
                     height: 350,
                     menubar: false,

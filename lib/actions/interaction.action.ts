@@ -24,8 +24,7 @@ export async function viewQuestion(params: ViewQuestionParams) {
         question: questionId,
       });
 
-      if (existingInteraction)
-        return console.log("user has already viewed the question");
+      if (existingInteraction) return;
 
       await Interaction.create({
         user: userId,

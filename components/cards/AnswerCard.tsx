@@ -4,6 +4,8 @@ import Link from "next/link";
 import React from "react";
 import Metric from "../shared/Metric";
 import ParseHTML from "../shared/ParseHTML";
+import { SignedIn } from "@clerk/nextjs";
+import EditDeleteAction from "../shared/EditDeleteAction";
 
 interface Props {
   clerkId?: string | null;
@@ -34,6 +36,8 @@ const AnswerCard = ({
   totalAnswers,
   answer,
 }: Props) => {
+  const showActionsButtons = clerkId && clerkId === author.clerkId;
+
   // TODO: Add content of the answer
   return (
     <Link
@@ -48,6 +52,11 @@ const AnswerCard = ({
           {question.title}
         </h3>
       </div>
+      <SignedIn>
+        {showActionsButtons && (
+          <EditDeleteAction type="Answer" itemId={JSON.stringify(_id)} />
+        )}
+      </SignedIn>
       <div className="line-clamp-1 mt-5">
         <ParseHTML data={answer.slice(0, 15)} />
         <span>...</span>

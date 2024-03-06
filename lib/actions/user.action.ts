@@ -17,6 +17,7 @@ import { revalidatePath } from "next/cache";
 import Question from "@/database/question.model";
 import Tag from "@/database/tag.model";
 import Answer from "@/database/answer.model";
+import path from "path";
 
 export async function getAllUsers(params: GetAllUsersParams) {
   try {
@@ -247,7 +248,6 @@ export async function getUserAnswers(params: GetUserStatsParams) {
       totalAnswers,
       answers: userAnswer,
     };
-    console.log(userAnswer);
   } catch (error) {
     console.log("error while getUserAnswers", error);
   }

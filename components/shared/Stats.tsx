@@ -14,7 +14,7 @@ const StatsCard = ({ imgUrl, value, title }: StatsCardProps) => {
       <Image src={imgUrl} alt={title} width={40} height={50} />
       <div>
         <p className="paragraph-semibold text-dark200_light900">{value}</p>
-        <p className="body-medium text-dark400">{title}</p>
+        <p className="body-medium text-dark400_light900">{title}</p>
       </div>
     </div>
   );
@@ -35,13 +35,13 @@ const Stats = ({ totalQuestions, totalAnswers }: Props) => {
             <p className="paragraph-semibold text-dark200_light900">
               {formatAndDivideNumber(totalQuestions)}
             </p>
-            <p className="body-medium text-dark400">Questions</p>
+            <p className="body-medium text-dark400_light900">Questions</p>
           </div>
           <div>
             <p className="paragraph-semibold text-dark200_light900">
               {formatAndDivideNumber(totalAnswers)}
             </p>
-            <p className="body-medium text-dark400">Answers</p>
+            <p className="body-medium text-dark400_light900">Answers</p>
           </div>
         </div>
 

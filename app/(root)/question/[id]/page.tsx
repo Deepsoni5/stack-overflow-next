@@ -10,8 +10,6 @@ import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
 import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
-import result from "postcss/lib/result";
-import { stringify } from "querystring";
 
 import React from "react";
 
@@ -31,7 +29,7 @@ const Page = async ({ params, searchParams }: any) => {
         <div className="flex w-full flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
           <Link
             className="flex items-center justify-start gap-1"
-            href={`/profile/${result.author.clerkId}`}
+            href={`/profile/${result?.author?.clerkId}`}
           >
             <Image
               src={result?.author?.picture}
@@ -80,13 +78,13 @@ const Page = async ({ params, searchParams }: any) => {
         <Metric
           imgUrl="/assets/icons/eye.svg"
           alt="eye"
-          value={formatAndDivideNumber(result.views)}
+          value={formatAndDivideNumber(result?.views)}
           title=" Views"
           textStyles="small-medium text-dark400_light800"
         />
       </div>
 
-      <ParseHTML data={result.content} />
+      <ParseHTML data={result?.content} />
 
       <div className="mt-8 flex flex-wrap gap-2">
         {result.tags.map((tag: any) => (
@@ -100,15 +98,15 @@ const Page = async ({ params, searchParams }: any) => {
       </div>
 
       <AllAnswers
-        questionId={result._id}
+        questionId={result?._id}
         userId={mongoUser._id}
-        totalAnswers={result.answers.length}
+        totalAnswers={result?.answers.length}
       />
 
       <Answer
         question={result.content}
-        questionId={JSON.stringify(result._id)}
-        authorId={JSON.stringify(mongoUser._id)}
+        questionId={JSON.stringify(result?._id)}
+        authorId={JSON.stringify(mongoUser?._id)}
       />
     </>
   );

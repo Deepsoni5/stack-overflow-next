@@ -22,7 +22,8 @@ import path from "path";
 export async function getAllUsers(params: GetAllUsersParams) {
   try {
     connectToDatabase();
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 10 } = params;
+    const skipAmount = (page - 1) * pageSize;
 
     const query: FilterQuery<typeof User> = {};
 
@@ -58,9 +59,13 @@ export async function getAllUsers(params: GetAllUsersParams) {
         break;
     }
 
-    const users = await User.find(query).sort(sortOptions);
-
-    return { users };
+    const users = await User.find(query)
+      .sort(sortOptions)
+      .skip(skipAmount)
+      .limit(pageSize);
+    const totalUsers = await User.countDocuments(query);
+    const isNext = totalUsers > skipAmount + users.length;
+    return { users, isNext };
   } catch (error) {
     console.log("error while getAllUsers", error);
   }
@@ -184,7 +189,9 @@ export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
 export async function getSavedQuestion(params: GetSavedQuestionsParams) {
   try {
     connectToDatabase();
-    const { clerkId, searchQuery, filter } = params;
+    const { clerkId, searchQuery, filter, page = 1, pageSize = 10 } = params;
+    const skipAmount = (page - 1) * pageSize;
+
     const query: FilterQuery<typeof Question> = searchQuery
       ? { title: { $regex: new RegExp(searchQuery, "i") } }
       : {};
@@ -216,6 +223,8 @@ export async function getSavedQuestion(params: GetSavedQuestionsParams) {
       match: query,
       options: {
         sort: sortOptions,
+        skip: skipAmount,
+        limit: pageSize + 1,
       },
       populate: [
         {
@@ -230,6 +239,7 @@ export async function getSavedQuestion(params: GetSavedQuestionsParams) {
         },
       ],
     });
+    const isNext = user?.saved?.length > pageSize;
 
     if (!user) {
       throw new Error("User not found");
@@ -238,6 +248,7 @@ export async function getSavedQuestion(params: GetSavedQuestionsParams) {
     const savedQuestion = user.saved;
     return {
       questions: savedQuestion,
+      isNext,
     };
   } catch (error) {
     console.log("error while getAllUsers", error);
@@ -268,7 +279,8 @@ export async function getUserInfo(params: GetUserByIdParams) {
 export async function getUserQuestions(params: GetUserStatsParams) {
   try {
     connectToDatabase();
-    const { userId, page = 1, pageSize = 10 } = params;
+    const { userId, page = 1, pageSize = 5 } = params;
+    const skipAmount = (page - 1) * pageSize;
 
     const totalQuestions = await Question.countDocuments({ author: userId });
 
@@ -276,12 +288,16 @@ export async function getUserQuestions(params: GetUserStatsParams) {
       author: userId,
     })
       .sort({ views: -1, upvotes: -1 })
+      .skip(skipAmount)
+      .limit(pageSize)
       .populate("tags", "_id name")
       .populate("author", "_id clerkId name picture");
 
+    const isNextQuestion = totalQuestions > skipAmount + userQuestions.length;
     return {
       totalQuestions,
       questions: userQuestions,
+      isNextQuestion,
     };
   } catch (error) {
     console.log("error while getAllUsers", error);
@@ -290,7 +306,8 @@ export async function getUserQuestions(params: GetUserStatsParams) {
 export async function getUserAnswers(params: GetUserStatsParams) {
   try {
     connectToDatabase();
-    const { userId, page = 1, pageSize = 10 } = params;
+    const { userId, page = 1, pageSize = 5 } = params;
+    const skipAmount = (page - 1) * pageSize;
 
     const totalAnswers = await Answer.countDocuments({ author: userId });
 
@@ -298,12 +315,16 @@ export async function getUserAnswers(params: GetUserStatsParams) {
       author: userId,
     })
       .sort({ upvotes: -1 })
+      .skip(skipAmount)
+      .limit(pageSize)
       .populate("question", "_id title")
       .populate("author", "_id clerkId name picture");
 
+    const isNextAnswers = totalAnswers > skipAmount + userAnswer.length;
     return {
       totalAnswers,
       answers: userAnswer,
+      isNextAnswers,
     };
   } catch (error) {
     console.log("error while getUserAnswers", error);

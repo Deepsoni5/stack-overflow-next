@@ -13,6 +13,7 @@ import { revalidatePath } from "next/cache";
 import Interaction from "@/database/interaction.model";
 
 import console from "console";
+import { M_PLUS_1 } from "next/font/google";
 
 export async function createAnswer(params: CreateAnswerParams) {
   try {
@@ -44,7 +45,8 @@ export async function getAnswers(params: GetAnswersParams) {
   try {
     connectToDatabase();
 
-    const { questionId, sortBy } = params;
+    const { questionId, sortBy, page = 1, pageSize = 5 } = params;
+    const skipAmount = (page - 1) * pageSize;
 
     let sortOptions = {};
 
@@ -68,10 +70,16 @@ export async function getAnswers(params: GetAnswersParams) {
     const answers = await Answer.find({
       question: questionId,
     })
+      .skip(skipAmount)
+      .limit(pageSize)
       .populate("author", "_id clerkId name picture")
       .sort(sortOptions);
 
-    return { answers };
+    const totalAnswer = await Answer.countDocuments({
+      question: questionId,
+    });
+    const isNextAnswer = totalAnswer > skipAmount + answers.length;
+    return { answers, isNextAnswer };
   } catch (error) {
     console.log("error in getAnswer Action", error);
   }

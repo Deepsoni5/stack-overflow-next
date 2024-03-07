@@ -10,7 +10,7 @@ import { URLProps } from "@/types";
 import { SignedIn, auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
-import { userInfo } from "os";
+
 import React from "react";
 
 const Page = async ({ params, searchParams }: URLProps) => {
@@ -29,7 +29,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
             className="rounded-full object-cover"
           />
           <div className="mt-3">
-            <h2 className="h2-bold text-text-dark100_light900">
+            <h2 className="h2-bold text-dark200_light800">
               {userInfo?.user?.name}
             </h2>
             <p className="paragraph-regular text-dark200_light800">

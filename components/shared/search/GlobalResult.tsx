@@ -73,7 +73,7 @@ const GlobalResult = () => {
       <p className="text-dark400_light900 paragraph-semibold px-5">
         <GlobalFilters />
       </p>
-      <div className="my-5 h-[1px] bg-light-700/50 dark:bg-dark-500/50" />
+      <div className="my-5 h-[1px] bg-light-700/50 dark:bg-dark-500/50"></div>
       <div className="space-y-5">
         <p className="text-dark400_light900 paragraph-semibold px-5">
           Top Match

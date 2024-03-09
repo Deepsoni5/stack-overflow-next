@@ -159,10 +159,24 @@ export async function createQuestion(params: CreateQuestionParams) {
 
     // create an interaction record for the user's ask question action
 
+    await Interaction.create({
+      user: author,
+      action: "ask_question",
+      question: question._id,
+      tags: tagDocuments,
+    });
+
     // Increment author's reputation by +5 for creating an action
+    await User.findByIdAndUpdate(author, {
+      $inc: {
+        reputation: 5,
+      },
+    });
 
     revalidatePath(path);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export async function upvoteQuestion(params: QuestionVoteParams) {
@@ -199,7 +213,17 @@ export async function upvoteQuestion(params: QuestionVoteParams) {
     }
 
     // TODO: Add reputation logic
+    await User.findByIdAndUpdate(userId, {
+      $inc: {
+        reputation: hasupVoted ? -1 : 1,
+      },
+    });
 
+    await User.findByIdAndUpdate(question.author, {
+      $inc: {
+        reputation: hasupVoted ? -10 : 10,
+      },
+    });
     revalidatePath(path);
   } catch (error) {
     console.log("error in upvoteQuestion action", error);
@@ -240,7 +264,17 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
     }
 
     // TODO: Add reputation logic
+    await User.findByIdAndUpdate(userId, {
+      $inc: {
+        reputation: hasdownVoted ? -2 : 2,
+      },
+    });
 
+    await User.findByIdAndUpdate(question.author, {
+      $inc: {
+        reputation: hasdownVoted ? -10 : 10,
+      },
+    });
     revalidatePath(path);
   } catch (error) {
     console.log("error in upvoteQuestion action", error);

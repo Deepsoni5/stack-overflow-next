@@ -13,7 +13,7 @@ import { revalidatePath } from "next/cache";
 import Interaction from "@/database/interaction.model";
 
 import console from "console";
-import { M_PLUS_1 } from "next/font/google";
+
 import User from "@/database/user.model";
 
 export async function createAnswer(params: CreateAnswerParams) {

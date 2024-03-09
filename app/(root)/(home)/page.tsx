@@ -6,17 +6,44 @@ import Pagination from "@/components/shared/Pagination";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
-import { getQuestion } from "@/lib/actions/question.action";
+import {
+  getQuestion,
+  getRecommendedQuestions,
+} from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
 
 import Link from "next/link";
+import type { Metadata } from "next";
+import { auth } from "@clerk/nextjs";
+
+export const metadata: Metadata = {
+  title: "Home | Devflow",
+};
 
 export default async function Home({ searchParams }: SearchParamsProps) {
-  const results = await getQuestion({
-    searchQuery: searchParams.q,
-    filter: searchParams.filter,
-    page: searchParams.page ? +searchParams.page : 1,
-  });
+  const { userId } = auth();
+  let results;
+
+  if (searchParams?.filter === "recommended") {
+    if (userId) {
+      results = await getRecommendedQuestions({
+        userId,
+        searchQuery: searchParams.q,
+        page: searchParams.page ? +searchParams.page : 1,
+      });
+    } else {
+      results = {
+        questions: [],
+        isNext: false,
+      };
+    }
+  } else {
+    results = await getQuestion({
+      searchQuery: searchParams.q,
+      filter: searchParams.filter,
+      page: searchParams.page ? +searchParams.page : 1,
+    });
+  }
 
   return (
     <>

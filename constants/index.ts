@@ -24,7 +24,7 @@ export const sidebarLinks: SidebarLink[] = [
   },
   {
     imgURL: "/assets/icons/suitcase.svg",
-    route: "/jobs",
+    route: "/",
     label: "Find Jobs",
   },
   {

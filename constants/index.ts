@@ -23,11 +23,6 @@ export const sidebarLinks: SidebarLink[] = [
     label: "Collections",
   },
   {
-    imgURL: "/assets/icons/suitcase.svg",
-    route: "/",
-    label: "Find Jobs",
-  },
-  {
     imgURL: "/assets/icons/tag.svg",
     route: "/tags",
     label: "Tags",

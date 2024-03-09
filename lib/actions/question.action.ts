@@ -264,17 +264,35 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
     }
 
     // TODO: Add reputation logic
-    await User.findByIdAndUpdate(userId, {
-      $inc: {
-        reputation: hasdownVoted ? -2 : 2,
-      },
-    });
+    // await User.findByIdAndUpdate(userId, {
+    //   $inc: {
+    //     reputation: hasdownVoted ? -2 : 2,
+    //   },
+    // });
 
-    await User.findByIdAndUpdate(question.author, {
-      $inc: {
-        reputation: hasdownVoted ? -10 : 10,
-      },
-    });
+    // await User.findByIdAndUpdate(question.author, {
+    //   $inc: {
+    //     reputation: hasdownVoted ? -10 : 10,
+    //   },
+    // });
+
+    // await User.findByIdAndUpdate(userId, {
+    //   $inc: { reputation: hasupVoted ? -2 : 2 },
+    // });
+    // await User.findByIdAndUpdate(question.author, {
+    //   $inc: { reputation: hasupVoted ? -10 : 10 },
+    // });
+
+    if (userId !== question.author.toString()) {
+      await User.findByIdAndUpdate(userId, {
+        $inc: { reputation: hasdownVoted ? -2 : 2 },
+      });
+
+      //  author of the answer
+      await User.findByIdAndUpdate(question.author, {
+        $inc: { reputation: hasdownVoted ? -10 : 10 },
+      });
+    }
     revalidatePath(path);
   } catch (error) {
     console.log("error in upvoteQuestion action", error);
